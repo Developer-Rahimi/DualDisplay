@@ -18,14 +18,33 @@ public class DisplayControl {
     public DisplayControl(Context context) {
         this.context = context;
     }
-    public void setBitmap(Bitmap bitmap){
-        new SavePicture(bitmap).execute();
+    public void setQrCode(String text){
+        Send("QrCode",text);
+    }
+    public void setOtherBitmap(Bitmap bitmap){
+        new SavePicture(bitmap,"other").execute();
+    }
+    public void setHeaderText(String text){
+        Send("Header",text);
+    }
+    public void setFooterText(String text){
+        Send("Footer",text);
+    }
+    public void setStatus(boolean state){
+        if(state){
+            Send("Status","Yes");
+        }else {
+            Send("Status","No");
+        }
+
     }
     private class SavePicture extends AsyncTask<Void, Void, String> {
         Bitmap bitmap;
+        String Name;
 
-        public SavePicture(Bitmap bitmap) {
+        public SavePicture(Bitmap bitmap, String name) {
             this.bitmap = bitmap;
+            Name = name;
         }
 
         @Override
@@ -36,17 +55,23 @@ public class DisplayControl {
 
         @Override
         protected String doInBackground(Void... voids) {
-            storeImage(bitmap);
+            storeImage(bitmap,Name);
             return null;
         }
         @Override
         protected void onPostExecute(String result) {
-            Send();
+            if(Name.equals("qrcode")){
+                Send("QrCode","Change");
+            }
+            else  if(Name.equals("other")){
+                Send("Other","Change");
+            }
+
         }
     }
-    private void storeImage(Bitmap image) {
+    private void storeImage(Bitmap image,String name) {
         try {
-            File bg =new File(root+"/background.png");
+            File bg =new File(root+"/"+name+".png");
             FileOutputStream fos = new FileOutputStream(bg);
             image.compress(Bitmap.CompressFormat.PNG, 90, fos);
             fos.close();
@@ -54,12 +79,12 @@ public class DisplayControl {
             Log.i("Error",e.getMessage());
         }
     }
-    private void Send(){
+    private void Send(String Command,String Value){
         Intent intent = new Intent();
         intent.setAction("ServiceManager.Message");
-        intent.putExtra("Target","LCD");
-        intent.putExtra("Command","Picture");
-        intent.putExtra("Value","Change");
+        intent.putExtra("Target","DualScreen");
+        intent.putExtra("Command",Command);
+        intent.putExtra("Value",Value);
         context.sendBroadcast(intent);
     }
 }

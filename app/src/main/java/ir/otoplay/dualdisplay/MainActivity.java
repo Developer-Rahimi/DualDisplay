@@ -50,17 +50,16 @@ public class MainActivity extends RuntimePermissionsActivity implements View.OnC
             case R.id.btn1:
                 Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
                         R.raw.background);
-                displayControl.setBitmap(icon);
+                displayControl.setQrCode("Hello World!");
+                displayControl.setOtherBitmap(icon);
+                displayControl.setFooterText("Bye!");
+                displayControl.setHeaderText("Hi!");
                 break;
             case R.id.btn2:
-                Bitmap icon2 = BitmapFactory.decodeResource(context.getResources(),
-                        R.raw.logo);
-                displayControl.setBitmap(icon2);
+                displayControl.setStatus(false);
                 break;
             case R.id.btn3:
-                Bitmap icon3 = BitmapFactory.decodeResource(context.getResources(),
-                        R.raw.src);
-                displayControl.setBitmap(icon3);
+                displayControl.setStatus(true);
                 break;
 
         }
