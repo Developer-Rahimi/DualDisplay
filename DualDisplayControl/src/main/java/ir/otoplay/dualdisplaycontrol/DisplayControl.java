@@ -7,12 +7,17 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class DisplayControl {
+    public final int SUCCESS=0;
+    public final int ERROR=1;
+    public final int EMPTY_WALLET=2;
     private Context context;
     private String root= Environment.getExternalStorageDirectory().getPath()+"/Lcd";
     public DisplayControl(Context context) {
@@ -30,11 +35,16 @@ public class DisplayControl {
     public void setFooterText(String text){
         Send("Footer",text);
     }
-    public void setStatus(boolean state){
-        if(state){
-            Send("Status","Yes");
-        }else {
-            Send("Status","No");
+    public void setStatus(String Title,String Desc,int Status){
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("Status",Status);
+            jsonObject.put("Desc",Desc);
+            jsonObject.put("Title",Title);
+            Send("Status",jsonObject.toString());
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
 
     }

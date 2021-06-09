@@ -50,16 +50,16 @@ public class MainActivity extends RuntimePermissionsActivity implements View.OnC
             case R.id.btn1:
                 Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
                         R.raw.background);
-                displayControl.setQrCode("Hello World!");
+                displayControl.setQrCode("Hello Worldsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss!");
                 displayControl.setOtherBitmap(icon);
                 displayControl.setFooterText("Bye!");
                 displayControl.setHeaderText("Hi!");
                 break;
             case R.id.btn2:
-                displayControl.setStatus(false);
+                displayControl.setStatus("پرداخت با موفقیت انجام شد","موجودی   25364   ریال",displayControl.SUCCESS);
                 break;
             case R.id.btn3:
-                displayControl.setStatus(true);
+                displayControl.setStatus("پرداخت با موفقیت انجام شد","",displayControl.ERROR);
                 break;
 
         }
